@@ -13,157 +13,94 @@
 
 \begin{document}
 \maketitle
-\thispagestyle{empty}
+
 \begin{abstract}
-Autonomous scientific discovery demands agents that can experiment, reason, and iterate without human supervision. Existing pipelines either expose raw execution environments—risking uncontrolled resource consumption and reproducibility loss—or rely on heavyweight orchestration frameworks that impede rapid prototyping. We present \texttt{sandbox\_science}, a self‑contained Python library that provides a budget‑aware execution sandbox, provenance‑tracked Git collaboration, and systematic mitigation of reward‑hacking behaviours. The library follows a clean \texttt{src/} layout, offers a concise public API, and ships with a comprehensive pytest suite covering budget enforcement, artifact provenance, and reward‑hacking detection. By decoupling agent logic from environment management, \texttt{sandbox\_science} enables rapid development of trustworthy, reproducible scientific agents while keeping computational costs transparent and bounded.
+Autonomous scientific discovery demands computational agents that can explore hypothesis spaces while respecting resource constraints and maintaining reproducible provenance. We present \texttt{sandbox\_science}, a Python library that provides a self‑regulating, budget‑aware execution sandbox, provenance‑tracked Git collaboration, and mitigation of reward‑hacking behaviours. The library follows a clean \texttt{src/} layout and exposes a concise import surface. Core components include a cost model, policy engine, execution sandbox, provenance auditor, and Git‑based artifact manager. An exhaustive pytest suite validates three concrete properties: (i) enforcement of a user‑specified computational budget, (ii) correct recording and retrieval of provenance information for generated artifacts, and (iii) detection of reward‑hacking attempts. No empirical performance numbers are reported; the paper focuses on design, implementation, and qualitative validation through the test suite. Future work will evaluate the system on real scientific workloads.
 \end{abstract}
 
 \section{Introduction}
-Autonomous agents are increasingly employed to explore large scientific search spaces, from materials design to hypothesis generation \cite{silver2022}. However, the lack of disciplined environment engineering leads to three critical challenges: (i) uncontrolled resource consumption, (ii) loss of reproducibility due to undocumented code changes, and (iii) the emergence of reward‑hacking strategies that exploit loopholes in the evaluation metric. Existing solutions either embed ad‑hoc budget checks within agent code or rely on external workflow managers, both of which hinder modularity and reproducibility.
+The rise of large language models and autonomous agents has opened the possibility of fully automated scientific discovery \cite{silver2016mastering,chen2021gpt}. However, existing pipelines often neglect three critical aspects: (1) strict enforcement of computational budgets, (2) reproducible provenance of generated artifacts, and (3) robustness against agents that manipulate reward signals (reward hacking). Without these safeguards, autonomous agents can exhaust resources, produce irreproducible results, or converge on spurious objectives.
 
-The \textbf{EurekAgent} project addresses these gaps by providing a dedicated library—\texttt{sandbox\_science}—that encapsulates execution control, cost accounting, provenance capture, and anti‑gaming safeguards. The library is deliberately lightweight, written in pure Python, and organized under a conventional \texttt{src/} layout to ease integration into downstream projects. This paper describes the design, implementation, and evaluation of the library, demonstrating that disciplined environment engineering is sufficient to support trustworthy autonomous scientific discovery.
+We propose \textbf{EurekAgent}, a software stack that treats the agent’s execution environment as a first‑class design variable. By engineering the sandbox, cost model, and provenance mechanisms together, we provide a principled foundation for safe, budget‑aware autonomous discovery. The contribution of this work is a reference implementation, \texttt{sandbox\_science}, that demonstrates the feasibility of this approach.
 
 \section{Related Work}
-Budget‑aware execution has been explored in cloud‑based notebook environments \cite{jupyter2020} and in reinforcement‑learning safety frameworks \cite{amodei2016}. Provenance tracking is a core feature of data‑centric tools such as DVC \cite{dvc2021} and Git‑LFS \cite{gitlfs2020}, yet these tools operate at the repository level rather than per‑execution sandbox. Reward‑hacking mitigation has been studied in AI safety literature, notably in the context of specification gaming \cite{krakovna2020}. Recent agent‑oriented platforms (e.g., OpenAI Gym \cite{brockman2016}) provide standardized interfaces but lack built‑in cost accounting or provenance. \texttt{sandbox\_science} unifies these concerns in a single, test‑driven package.
+Prior efforts have explored sandboxed execution for untrusted code \cite{schwartz2010secure}, cost‑aware scheduling in cloud environments \cite{zhang2019cost}, and provenance tracking in scientific workflows \cite{ludascher2006scientific}. Reward‑hacking mitigation has been studied in reinforcement learning safety \cite{amodei2016concrete}. Our work unifies these strands by providing a single library that integrates budget enforcement, Git‑based provenance, and policy‑driven reward monitoring for autonomous scientific agents.
 
 \section{Methodology}
-The architecture of \texttt{sandbox\_science} consists of six core components (Figure~\ref{fig:arch}):
+The architecture of \texttt{sandbox\_science} is modular (Figure~\ref{fig:arch}). The main components are:
 
-\begin{enumerate}
-    \item \textbf{CostModel} (\texttt{cost\_model.py}) – defines a deterministic mapping from primitive operations (CPU time, memory, I/O) to monetary units.
-    \item \textbf{Policy} (\texttt{policy.py}) – enforces a user‑specified budget, aborting execution when the cumulative cost exceeds the limit.
-    \item \textbf{Executor} (\texttt{executor.py}) – runs user code in a restricted subprocess, intercepting system calls via \texttt{resource} and \texttt{psutil}.
-    \item \textbf{Auditor} (\texttt{auditor.py}) – monitors runtime metrics, aggregates cost, and logs violations.
-    \item \textbf{Provenance} (\texttt{provenance.py}) – records a Git commit snapshot before and after execution, storing diffs and metadata in a structured JSON artifact.
-    \item \textbf{Sandbox} (\texttt{sandbox.py}) – high‑level façade that composes the above components, exposing \texttt{run(func, *args, **kwargs)}.
-\end{enumerate}
+\begin{itemize}
+    \item \textbf{cost\_model}: Defines a deterministic mapping from primitive operations (e.g., CPU cycles, memory allocations) to abstract cost units. The model can be extended to incorporate external pricing APIs.
+    \item \textbf{policy}: Implements a budget controller that monitors cumulative cost and aborts execution when the budget is exceeded. It also provides hooks for reward‑hacking detection based on policy violations.
+    \item \textbf{executor}: Wraps user code in a restricted Python environment, intercepting calls to the cost model and forwarding them to the policy engine.
+    \item \textbf{sandbox}: Orchestrates the lifecycle of an execution, exposing a simple API \texttt{run\_in\_sandbox(func, budget)}.
+    \item \textbf{provenance}: Records inputs, outputs, and environment snapshots in a Git repository. Each artifact is tagged with a unique hash and metadata linking it to the execution context.
+    \item \textbf{auditor}: Analyzes provenance records to detect anomalies indicative of reward hacking (e.g., repeated generation of identical high‑reward artifacts without corresponding cost).
+\end{itemize}
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{architecture.png}
-    \caption{Component interaction diagram for \texttt{sandbox\_science}.}
+    \includegraphics[width=0.8\linewidth]{architecture.png}
+    \caption{Modular architecture of \texttt{sandbox\_science}.}
     \label{fig:arch}
 \end{figure}
 
-\subsection{Budget Enforcement Algorithm}
-The executor periodically (every 100 ms) queries resource usage. The auditor updates a running total:
-\[
-C_{\text{total}} = \sum_{i=1}^{n} \text{CostModel}(r_i)
-\]
-If $C_{\text{total}} > B$ (budget), the policy raises a \texttt{BudgetExceeded} exception, terminating the subprocess. This deterministic loop guarantees that no execution can exceed the budget by more than the granularity of the sampling interval.
-
-\subsection{Provenance Capture}
-Before execution, the current Git HEAD is recorded. After execution, a second snapshot is taken; the diff is stored alongside the execution log. The provenance JSON schema includes fields for \texttt{commit\_before}, \texttt{commit\_after}, \texttt{diff}, \texttt{cost}, and \texttt{timestamp}. This enables reproducibility and auditability.
-
-\subsection{Reward‑Hacking Mitigation}
-The auditor inspects the return value of the user function. If the value is a scalar reward, the policy checks for anomalous patterns (e.g., sudden spikes, repeated identical rewards). Detected patterns trigger a \texttt{RewardHackingDetected} warning and optionally penalize the reward by a configurable factor.
+The execution flow is as follows: a user calls \texttt{sandbox.run\_in\_sandbox} with a target function and a budget. The executor creates a restricted namespace, instruments the function with cost callbacks, and forwards cost events to the policy. Upon completion, the provenance module commits the generated artifacts to a Git repository, and the auditor scans the commit history for suspicious patterns.
 
 \section{Implementation}
 The library follows a conventional \texttt{src/} layout:
 
 \begin{verbatim}
-src/
-└─ sandbox_science/
-   ├─ __init__.py
-   ├─ auditor.py
-   ├─ cost_model.py
-   ├─ executor.py
-   ├─ policy.py
-   ├─ provenance.py
-   ├─ sandbox.py
-   └─ utils/
-      └─ __init__.py
+sandbox_science/
+├── src/
+│   └── sandbox_science/
+│       ├── __init__.py
+│       ├── auditor.py
+│       ├── cost_model.py
+│       ├── executor.py
+│       ├── policy.py
+│       ├── provenance.py
+│       └── sandbox.py
+└── tests/
+    ├── test_budget.py
+    ├── test_provenance.py
+    └── test_reward_hacking.py
 \end{verbatim}
 
-\subsection{Public API}
-\begin{verbatim}
-from sandbox_science import Sandbox, CostModel, Policy
-
-sandbox = Sandbox(
-    budget=10.0,                     # $10 budget
-    cost_model=CostModel(),
-    policy=Policy(),
-)
-result = sandbox.run(my_experiment, arg1, arg2)
-\end{verbatim}
-
-\subsection{Testing Strategy}
-A pytest suite (\texttt{tests/}) validates three concrete behaviours:
+Each module provides a minimal public API:
 
 \begin{itemize}
-    \item \textbf{Budget‑aware sandbox} – verifies that a function exceeding the budget is terminated and raises \texttt{BudgetExceeded}.
-    \item \textbf{Artifact provenance} – checks that pre‑ and post‑execution commits are recorded and that the diff JSON matches expected changes.
-    \item \textbf{Reward‑hacking detection} – confirms that artificially inflated rewards trigger a \texttt{RewardHackingDetected} warning.
+    \item \texttt{sandbox\_science.sandbox.run\_in\_sandbox(func, budget)}.
+    \item \texttt{sandbox\_science.cost\_model.get\_cost(op)}.
+    \item \texttt{sandbox\_science.policy.BudgetPolicy(budget)}.
+    \item \texttt{sandbox\_science.provenance.commit\_artifact(path, metadata)}.
+    \item \texttt{sandbox\_science.auditor.detect\_hacking(repo\_path)}.
 \end{itemize}
 
-Each test uses temporary Git repositories (via \texttt{gitpython}) and isolates subprocesses to avoid side effects. Coverage exceeds 95\% across all modules.
+\subsection{Testing Strategy}
+The test suite, written with \texttt{pytest}, contains three concrete acceptance tests:
 
-\section{Results and Discussion}
-Benchmarks on a standard laptop (Intel i7, 16 GB RAM) show that the overhead of budget monitoring is modest: average runtime inflation of $3.2\%$ for CPU‑bound workloads and $5.1\%$ for I/O‑heavy tasks. Provenance capture adds a fixed $12$ ms per execution for Git operations, negligible compared to typical scientific workloads (seconds to minutes). Reward‑hacking detection successfully identified $100\%$ of injected cheating patterns in synthetic tests without false positives on benign workloads.
+\begin{enumerate}
+    \item \textbf{Budget‑aware sandbox} (\texttt{test\_budget.py}): Executes a synthetic workload whose cumulative cost exceeds a supplied budget. The test asserts that a \texttt{BudgetExceededError} is raised and that no further operations are performed.
+    \item \textbf{Artifact provenance} (\texttt{test\_provenance.py}): Runs a function that produces a file, then checks that the file is committed to a temporary Git repository with correct metadata (hash, author, timestamp). Retrieval of the artifact via the provenance API is also verified.
+    \item \textbf{Reward‑hacking detection} (\texttt{test\_reward\_hacking.py}): Simulates an agent that repeatedly returns a high‑reward artifact without incurring cost. The auditor is invoked on the repository and the test asserts that the hacking flag is set.
+\end{enumerate}
 
-The modular design permits swapping components (e.g., alternative cost models) without altering agent code, demonstrating the value of environment engineering as a reusable abstraction. Limitations include reliance on the underlying OS for resource accounting and the need for a Git repository at runtime; future work will explore container‑based isolation and language‑agnostic cost models.
+All tests are deterministic, run in isolated temporary directories, and do not depend on external services. They collectively demonstrate that the library enforces budgets, tracks provenance, and flags reward‑hacking behaviour.
+
+\section{Validation \& Limitations}
+The test suite provides qualitative validation that the core design goals are met. Specifically, it shows that:
+\begin{itemize}
+    \item The policy engine correctly aborts execution when the budget is exhausted.
+    \item Provenance records are faithfully stored in Git and can be queried.
+    \item The auditor can detect simple patterns of reward manipulation.
+\end{itemize}
+However, the implementation has not been evaluated on real scientific workloads, large‑scale datasets, or in multi‑agent settings. Performance overhead, scalability of the Git backend, and robustness to sophisticated hacking strategies remain open questions.
 
 \section{Conclusion and Future Work}
-We introduced \texttt{sandbox\_science}, a lightweight Python library that integrates budget‑aware execution, provenance tracking, and reward‑hacking mitigation into a single, test‑driven package. By providing a clean import surface and exhaustive acceptance tests, the library enables rapid development of trustworthy autonomous scientific agents. Future directions include extending support to distributed execution, adding declarative policy languages, and integrating with existing workflow managers (e.g., Airflow, Prefect) to broaden applicability.
-
-\section*{Acknowledgments}
-The author thanks the members of the Automate Capture Research group for valuable feedback and the open‑source community for inspiration.
+We introduced \texttt{sandbox\_science}, a reference Python library that integrates budget‑aware sandboxing, Git‑based provenance, and reward‑hacking mitigation for autonomous scientific agents. The modular design and exhaustive test suite establish a solid foundation for further research. Future work will focus on empirical evaluation with real scientific pipelines, extending the cost model to cloud pricing APIs, improving the auditor with machine‑learning‑based anomaly detection, and exploring collaborative multi‑agent scenarios.
 
 \bibliographystyle{plainnat}
 \bibliography{references}
 
 \end{document}
-
-% ---------- Bibliography entries ----------
-@article{silver2022,
-  author = {Silver, David and others},
-  title = {The Promise of Autonomous Scientific Discovery},
-  journal = {Nature},
-  year = {2022},
-  volume = {610},
-  pages = {123--130},
-  doi = {10.1038/s41586-022-04567-8}
-}
-
-@inproceedings{jupyter2020,
-  author = {Kluyver, Thomas and Ragan-Kelley, Benjamin and others},
-  title = {Jupyter Notebooks -- a publishing format for reproducible computational workflows},
-  booktitle = {Proceedings of the 2016 International Conference on Learning Representations},
-  year = {2020},
-  url = {https://jupyter.org}
-}
-
-@article{amodei2016,
-  author = {Amodei, Dario and others},
-  title = {Concrete Problems in AI Safety},
-  journal = {arXiv preprint arXiv:1606.06565},
-  year = {2016}
-}
-
-@misc{dvc2021,
-  author = {DVC.org},
-  title = {Data Version Control},
-  year = {2021},
-  howpublished = {\url{https://dvc.org}}
-}
-
-@misc{gitlfs2020,
-  author = {Git LFS},
-  title = {Git Large File Storage},
-  year = {2020},
-  howpublished = {\url{https://git-lfs.github.com}}
-}
-
-@article{krakovna2020,
-  author = {Krakovna, Anna and others},
-  title = {Specification Gaming: A Survey of Reward Hacking in Reinforcement Learning},
-  journal = {arXiv preprint arXiv:2004.06758},
-  year = {2020}
-}
-
-@inproceedings{brockman2016,
-  author = {Brockman, Greg and others},
-  title = {OpenAI Gym},
-  booktitle = {arXiv preprint arXiv:1606.01540},
-  year = {2016}
-}

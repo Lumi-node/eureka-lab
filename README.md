@@ -12,7 +12,7 @@
   <a href="https://github.com/Lumi-node/eureka-lab"><img src="https://img.shields.io/badge/GitHub-Repository-blue?logo=github" alt="GitHub"></a>
   <a href="https://github.com/Lumi-node/eureka-lab/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License"></a>
   <a href="https://pypi.org/project/eureka-lab/"><img src="https://img.shields.io/badge/Python-≥3.10-blue.svg" alt="Python"></a>
-  <a href="https://github.com/Lumi-node/eureka-lab/actions"><img src="https://img.shields.io/badge/tests-192-success.svg" alt="Tests"></a>
+  <a href="https://github.com/Lumi-node/eureka-lab/actions"><img src="https://img.shields.io/badge/tests-14-success.svg" alt="Tests"></a>
 </p>
 
 ---
