@@ -1,20 +1,20 @@
 # Installation
 
-## From PyPI
+Install the latest version directly from GitHub:
 
 ```bash
-pip install eureka-lab
+pip install git+https://github.com/Lumi-node/eureka-lab.git
 ```
 
-## From Source
+Requires Python ≥ 3.10.
+
+### Development install
 
 ```bash
 git clone https://github.com/Lumi-node/eureka-lab.git
 cd eureka-lab
 pip install -e ".[dev]"
+pytest -q
 ```
 
-## Requirements
-
-- Python >= 3.10
-- Dependencies: __future__, git, numpy, pydantic, sandbox_science
+> Not published to PyPI — install from source as shown above.
