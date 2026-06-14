@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#architecture-eurekalab-sandbox_science" class="md-skip">
+        <a href="#architecture" class="md-skip">
           Skip to content
         </a>
       
@@ -596,63 +596,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-system-overview" class="md-nav__link">
+  <a href="#modules" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. System Overview
+        Modules
       
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-module-relationship-diagram" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Module Relationship Diagram
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-module-descriptions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Module Descriptions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-data-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Data Flow
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="4. Data Flow">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -772,63 +722,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-system-overview" class="md-nav__link">
+  <a href="#modules" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. System Overview
+        Modules
       
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-module-relationship-diagram" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Module Relationship Diagram
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-module-descriptions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Module Descriptions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-data-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Data Flow
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="4. Data Flow">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -852,175 +752,53 @@
   
 
 
-<h1 id="architecture-eurekalab-sandbox_science">Architecture – EurekaLab <code>sandbox_science</code><a class="headerlink" href="#architecture-eurekalab-sandbox_science" title="Permanent link">&para;</a></h1>
-<hr />
-<h2 id="1-system-overview">1. System Overview<a class="headerlink" href="#1-system-overview" title="Permanent link">&para;</a></h2>
-<p><code>sandbox_science</code> is a <strong>self‑regulating, budget‑aware execution sandbox</strong> that lets data‑science teams run arbitrary experiments while automatically tracking provenance, enforcing cost policies, and detecting reward‑hacking attempts.  </p>
-<ul>
-<li><strong>Budget awareness</strong> – Every experiment is described by an <code>ExecutionSpec</code>. The <code>CostModel</code> estimates the expected spend, the <code>Policy</code> checks that the estimate fits the remaining budget, and the <code>Executor</code> enforces a hard limit at runtime via the <code>resource_limiter</code>.  </li>
-<li><strong>Provenance‑tracked Git collaboration</strong> – All input files, results, and audit reports are committed to a lightweight Git repository managed by the <code>Provenance</code> module. Merge operations are safe‑guarded by cross‑validation (<code>Auditor.cross_validate</code>).  </li>
-<li><strong>Reward‑hacking mitigation</strong> – After each run the <code>Auditor</code> produces an <code>AuditReport</code>. The <code>Policy</code> records the cost of the run and, together with the <code>Auditor.cross_validate</code> step, flags any suspicious improvement that cannot be justified by the underlying data.  </li>
-</ul>
-<p>The library is laid out under a <code>src/</code> directory, exposing a clean top‑level import surface (<code>import sandbox_science as ss</code>). All public symbols are re‑exported in <code>src/sandbox_science/__init__.py</code>.  </p>
-<hr />
-<h2 id="2-module-relationship-diagram">2. Module Relationship Diagram<a class="headerlink" href="#2-module-relationship-diagram" title="Permanent link">&para;</a></h2>
-<pre class="mermaid"><code>graph TD
-    A[sandbox_science.__init__] --&gt; B[auditor.AuditFlag]
-    A --&gt; C[auditor.AuditReport]
-    A --&gt; D[auditor.CrossValReport]
-    A --&gt; E[cost_model.ExecutionSpec]
-    A --&gt; F[cost_model.CostEstimate]
-    A --&gt; G[cost_model.CostActual]
-    A --&gt; H[executor.RunLog]
-    A --&gt; I[policy.PolicyDecision]
-    A --&gt; J[policy.is_allowed]
-    A --&gt; K[policy.record_spend]
-    A --&gt; L[policy.spent]
-    A --&gt; M[provenance.CommitInfo]
-    A --&gt; N[provenance.MergeResult]
-    A --&gt; O[provenance.path]
-    A --&gt; P[provenance.init]
-    A --&gt; Q[provenance.commit]
-    A --&gt; R[provenance.log]
-    A --&gt; S[provenance.merge]
-    A --&gt; T[sandbox.ExperimentRequest]
-    A --&gt; U[sandbox.ExperimentResult]
-    A --&gt; V[sandbox.submit]
-    A --&gt; W[sandbox.cancel]
-    A --&gt; X[utils.resource_limiter.apply]
-    A --&gt; Y[utils.resource_limiter.check_process]
-    A --&gt; Z[utils.timer.start]
-    A --&gt; AA[utils.timer.stop]
-    A --&gt; AB[utils.timer.elapsed]
-
-    E --&gt; H
-    H --&gt; V
-    V --&gt; T
-    V --&gt; U
-    U --&gt; C
-    C --&gt; J
-    J --&gt; K
-    K --&gt; L
-    L --&gt; X
-    X --&gt; Y
-    Y --&gt; Z
-    Z --&gt; AA
-    AA --&gt; AB
-    C --&gt; M
-    M --&gt; Q
-    Q --&gt; R
-    R --&gt; S
-    S --&gt; D
-    D --&gt; J</code></pre>
-<hr />
-<h2 id="3-module-descriptions">3. Module Descriptions<a class="headerlink" href="#3-module-descriptions" title="Permanent link">&para;</a></h2>
+<h1 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h1>
+<p>EurekaLab is organized around a small set of modules that form a pipeline:</p>
+<pre class="mermaid"><code>flowchart LR
+    A["Cost model"]
+    B["Policy engine"]
+    C["Executor"]
+    D["Provenance"]
+    E["Auditor"]
+    A --&gt; B
+    B --&gt; C
+    C --&gt; D
+    D --&gt; E</code></pre>
+<h2 id="modules">Modules<a class="headerlink" href="#modules" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>Module</th>
-<th>Primary Classes / Functions</th>
-<th>Role</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong><code>sandbox_science/__init__.py</code></strong></td>
-<td>Re‑exports all public symbols</td>
-<td>Provides a single import point (<code>import sandbox_science as ss</code>).</td>
+<td><code>auditor</code></td>
+<td>—</td>
 </tr>
 <tr>
-<td><strong><code>auditor.py</code></strong></td>
-<td><code>AuditFlag</code>, <code>AuditReport</code>, <code>CrossValReport</code>, <code>verify</code>, <code>cross_validate</code></td>
-<td>Checks the scientific validity of a result. <code>verify</code> produces a per‑run <code>AuditReport</code>; <code>cross_validate</code> aggregates multiple reports to detect inconsistencies or reward‑hacking.</td>
+<td><code>cost_model</code></td>
+<td>—</td>
 </tr>
 <tr>
-<td><strong><code>cost_model.py</code></strong></td>
-<td><code>ExecutionSpec</code>, <code>CostEstimate</code>, <code>CostActual</code>, <code>estimate</code>, <code>update</code></td>
-<td>Translates a user‑provided experiment description into a cost estimate, and later reconciles the actual spend.</td>
+<td><code>executor</code></td>
+<td>—</td>
 </tr>
 <tr>
-<td><strong><code>executor.py</code></strong></td>
-<td><code>RunLog</code>, <code>run</code></td>
-<td>Executes the experiment inside a sandboxed subprocess, records runtime metrics, and returns a <code>RunLog</code>.</td>
+<td><code>policy</code></td>
+<td>—</td>
 </tr>
 <tr>
-<td><strong><code>policy.py</code></strong></td>
-<td><code>PolicyDecision</code>, <code>is_allowed</code>, <code>record_spend</code>, <code>spent</code></td>
-<td>Enforces budget constraints. <code>is_allowed</code> decides whether a run may start; <code>record_spend</code> updates the cumulative spend; <code>spent</code> reports the current consumption.</td>
+<td><code>provenance</code></td>
+<td>—</td>
 </tr>
 <tr>
-<td><strong><code>provenance.py</code></strong></td>
-<td><code>CommitInfo</code>, <code>MergeResult</code>, <code>path</code>, <code>init</code>, <code>commit</code>, <code>log</code>, <code>merge</code></td>
-<td>Manages a lightweight Git repository that stores inputs, outputs, and audit artifacts. Guarantees reproducibility and enables safe merges of parallel experiment branches.</td>
-</tr>
-<tr>
-<td><strong><code>sandbox.py</code></strong></td>
-<td><code>ExperimentRequest</code>, <code>ExperimentResult</code>, <code>submit</code>, <code>cancel</code></td>
-<td>Public façade for users. <code>submit</code> validates the request, asks the <code>Policy</code> for permission, runs the experiment via <code>Executor</code>, audits the result, and finally commits everything through <code>Provenance</code>. <code>cancel</code> aborts a running job (via PID stored in <code>RunLog</code>).</td>
-</tr>
-<tr>
-<td><strong><code>utils/resource_limiter.py</code></strong></td>
-<td><code>apply</code>, <code>check_process</code></td>
-<td>Applies OS‑level resource limits (CPU, memory, wall‑time) to the child process. <code>check_process</code> can be polled to enforce soft limits.</td>
-</tr>
-<tr>
-<td><strong><code>utils/timer.py</code></strong></td>
-<td><code>start</code>, <code>stop</code>, <code>elapsed</code></td>
-<td>Simple high‑resolution timer used by <code>Executor</code> to measure wall‑clock time and feed it into <code>RunLog</code>.</td>
+<td><code>sandbox</code></td>
+<td>—</td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="4-data-flow">4. Data Flow<a class="headerlink" href="#4-data-flow" title="Permanent link">&para;</a></h2>
-<ol>
-<li>
-<p><strong>User request</strong> – A client creates an <code>ExperimentRequest</code> (contains a <code>spec: ExecutionSpec</code>, optional data files, and a human‑readable description) and calls <code>sandbox.submit(request)</code>.  </p>
-</li>
-<li>
-<p><strong>Budget check</strong> – <code>submit</code> forwards <code>request.spec</code> to <code>CostModel.estimate</code>, receiving a <code>CostEstimate</code>. The <code>Policy.is_allowed(estimate)</code> method checks the remaining budget (<code>Policy.spent</code>). If the estimate exceeds the budget, an exception is raised and the request is rejected.  </p>
-</li>
-<li>
-<p><strong>Resource preparation</strong> – <code>Provenance.init</code> creates (or re‑uses) a Git repo at a dedicated experiment directory. Input files are staged, and a first commit records the raw request.  </p>
-</li>
-<li>
-<p><strong>Execution</strong> – <code>Executor.run(spec, budget)</code> spawns a subprocess. Before the child starts, <code>utils.resource_limiter.apply</code> installs hard limits derived from <code>budget</code>. The timer (<code>utils.timer</code>) is started, the child runs, and on termination the timer is stopped. A <code>RunLog</code> is built containing:  </p>
-</li>
-<li>
-<p><code>run_id</code> (UUID)  </p>
-</li>
-<li><code>pid</code> of the child process  </li>
-<li><code>wall_time</code> (from <code>timer.elapsed</code>)  </li>
-<li><code>cpu_time</code>, <code>memory_peak</code> (from <code>resource_limiter.check_process</code>)  </li>
-<li>
-<p><code>exit_code</code> and any stdout/stderr capture  </p>
-</li>
-<li>
-<p><strong>Cost reconciliation</strong> – <code>CostModel.update</code> receives a <code>CostActual</code> (populated from <code>RunLog</code>) and adjusts internal bookkeeping. The actual spend is added to the policy via <code>Policy.record_spend(actual.cost)</code>.  </p>
-</li>
-<li>
-<p><strong>Auditing</strong> – <code>Auditor.verify(run_log)</code> produces an <code>AuditReport</code> that includes:  </p>
-</li>
-<li>
-<p><code>flag</code> (<code>AuditFlag.PASS</code>, <code>FAIL</code>, <code>SUSPICIOUS</code>)  </p>
-</li>
-<li><code>metrics</code> (e.g., achieved accuracy, loss)  </li>
-<li><code>cost</code> (the actual spend)  </li>
-</ol>
-<p>The report is stored as a JSON artifact and committed to the repo (<code>Provenance.commit</code>).  </p>
-<ol>
-<li>
-<p><strong>Cross‑validation (optional)</strong> – When multiple runs of the same experiment exist (e.g., hyper‑parameter sweeps), the caller may invoke <code>Auditor.cross_validate([reports])</code>. This aggregates the reports into a <code>CrossValReport</code> that flags any result that appears to “game” the reward (e.g., dramatically better metric with unchanged data). If <code>CrossValReport</code> contains a <code>SUSPICIOUS</code> flag, the <code>Policy</code> can be instructed to reject further runs of that experiment.  </p>
-</li>
-<li>
-<p><strong>Result assembly</strong> – <code>ExperimentResult</code> is built from the <code>RunLog</code>, the final <code>AuditReport</code>, and the latest commit hash. It is returned to the caller and also persisted in the Git repo.  </p>
-</li>
-<li>
-<p><strong>Cancellation</strong> – If the user calls <code>sandbox.cancel(run_id)</code>, the stored PID from the corresponding <code>RunLog</code> is sent a termination signal. The <code>RunLog</code> is updated to reflect the aborted state, and the partial run is still recorded for auditability.  </p>
-</li>
-</ol>
-<hr />
-<h3 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h3>
-<p>The architecture cleanly separates <strong>policy</strong>, <strong>cost</strong>, <strong>execution</strong>, <strong>audit</strong>, and <strong>provenance</strong> concerns while keeping the public API tiny (<code>sandbox.submit</code>, <code>sandbox.cancel</code>). The Mermaid diagram visualises the dependencies, and the data‑flow description shows how a request travels through the system, guaranteeing that every experiment is budget‑constrained, reproducibly versioned, and scientifically validated.</p>
 
 
 

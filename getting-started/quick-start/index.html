@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#quickstart-guide-eurekalab-sandbox_science" class="md-skip">
+        <a href="#quick-start" class="md-skip">
           Skip to content
         </a>
       
@@ -515,24 +515,6 @@
         
       
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Quick Start
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -549,69 +531,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#1-installation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Installation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-core-concepts-at-a-glance" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Core Concepts (at a glance)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-minimal-working-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Minimal Working Example
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-a-slightly-more-advanced-workflow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. A Slightly More Advanced Workflow
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -753,58 +672,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#1-installation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Installation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-core-concepts-at-a-glance" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Core Concepts (at a glance)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-minimal-working-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Minimal Working Example
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-a-slightly-more-advanced-workflow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. A Slightly More Advanced Workflow
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -823,212 +690,28 @@
   
 
 
-<h1 id="quickstart-guide-eurekalab-sandbox_science">Quick‑Start Guide – <strong>EurekaLab</strong> (<code>sandbox_science</code>)<a class="headerlink" href="#quickstart-guide-eurekalab-sandbox_science" title="Permanent link">&para;</a></h1>
-<p>Welcome to <strong>EurekaLab</strong> – a self‑regulating, budget‑aware execution sandbox that tracks provenance with Git and protects against reward‑hacking.<br />
-All public objects live under the top‑level package <code>sandbox_science</code>. The guide below shows how to install the library, initialise a sandbox, run an experiment, and inspect the audit &amp; provenance information.</p>
-<hr />
-<h2 id="1-installation">1. Installation<a class="headerlink" href="#1-installation" title="Permanent link">&para;</a></h2>
-<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Clone the repo (or add it as a submodule)</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/yourorg/eureka_lab.git
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">cd</span><span class="w"> </span>eureka_lab
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># Install the package in editable mode (includes the test suite)</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+<h1 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h1>
+<p>The following example runs end‑to‑end against the installed package:</p>
+<div class="language-python highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sandbox_science</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sandbox</span><span class="p">,</span> <span class="n">ExperimentRequest</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># A sandbox enforces a cost budget and records provenance</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">sandbox</span> <span class="o">=</span> <span class="n">Sandbox</span><span class="p">(</span><span class="n">workspace</span><span class="o">=</span><span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">())</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">request</span> <span class="o">=</span> <span class="n">ExperimentRequest</span><span class="p">(</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">code</span><span class="o">=</span><span class="s2">&quot;print(&#39;hello from the sandbox&#39;)&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">budget</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">timeout_seconds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">memory_limit_mb</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">)</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="n">result</span> <span class="o">=</span> <span class="n">sandbox</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">success</span><span class="p">)</span>                  <span class="c1"># True</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">run_log</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>   <span class="c1"># hello from the sandbox</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">cost_actual</span><span class="o">.</span><span class="n">total_cost</span><span class="p">)</span>   <span class="c1"># measured cost, &lt;= budget</span>
 </code></pre></div>
-<blockquote>
-<p><strong>Tip</strong> – The package follows the <em>src‑layout</em> (<code>src/sandbox_science</code>). After installation you can import it simply with <code>import sandbox_science</code>.</p>
-</blockquote>
-<hr />
-<h2 id="2-core-concepts-at-a-glance">2. Core Concepts (at a glance)<a class="headerlink" href="#2-core-concepts-at-a-glance" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Module</th>
-<th>Primary class / function</th>
-<th>What it does</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>auditor</code></td>
-<td><code>AuditFlag</code>, <code>AuditReport</code>, <code>CrossValReport</code>, <code>verify</code>, <code>cross_validate</code></td>
-<td>Checks results for correctness, reproducibility and reward‑hacking.</td>
-</tr>
-<tr>
-<td><code>cost_model</code></td>
-<td><code>ExecutionSpec</code>, <code>CostEstimate</code>, <code>CostActual</code>, <code>estimate</code>, <code>update</code></td>
-<td>Predicts and records the computational cost of a run.</td>
-</tr>
-<tr>
-<td><code>executor</code></td>
-<td><code>RunLog</code>, <code>run</code></td>
-<td>Executes a spec inside a resource‑limited sandbox.</td>
-</tr>
-<tr>
-<td><code>policy</code></td>
-<td><code>PolicyDecision</code>, <code>is_allowed</code>, <code>record_spend</code>, <code>spent</code></td>
-<td>Enforces budget limits and decides whether a run may proceed.</td>
-</tr>
-<tr>
-<td><code>provenance</code></td>
-<td><code>CommitInfo</code>, <code>MergeResult</code>, <code>init</code>, <code>commit</code>, <code>log</code>, <code>merge</code>, <code>path</code></td>
-<td>Handles a lightweight Git repo that stores experiment artefacts.</td>
-</tr>
-<tr>
-<td><code>sandbox</code></td>
-<td><code>ExperimentRequest</code>, <code>ExperimentResult</code>, <code>submit</code>, <code>cancel</code></td>
-<td>High‑level façade that glues the above pieces together.</td>
-</tr>
-<tr>
-<td><code>utils.resource_limiter</code></td>
-<td><code>apply</code>, <code>check_process</code></td>
-<td>OS‑level limits (CPU, memory) for a running process.</td>
-</tr>
-<tr>
-<td><code>utils.timer</code></td>
-<td><code>start</code>, <code>stop</code>, <code>elapsed</code></td>
-<td>Simple wall‑clock timer used by the executor.</td>
-</tr>
-</tbody>
-</table>
-<p>All objects are <strong>Pydantic</strong> models (<code>BaseModel</code>) where appropriate, so they validate their fields automatically and can be serialised to JSON for logging.</p>
-<hr />
-<h2 id="3-minimal-working-example">3. Minimal Working Example<a class="headerlink" href="#3-minimal-working-example" title="Permanent link">&para;</a></h2>
-<div class="language-python highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># example_01_basic.py</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sandbox_science</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">ExperimentRequest</span><span class="p">,</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">ExperimentResult</span><span class="p">,</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">ExecutionSpec</span><span class="p">,</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">CostEstimate</span><span class="p">,</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="n">PolicyDecision</span><span class="p">,</span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    <span class="n">is_allowed</span><span class="p">,</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    <span class="n">record_spend</span><span class="p">,</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    <span class="n">spent</span><span class="p">,</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    <span class="n">run</span><span class="p">,</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>    <span class="n">verify</span><span class="p">,</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    <span class="n">init</span> <span class="k">as</span> <span class="n">prov_init</span><span class="p">,</span>
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>    <span class="n">commit</span> <span class="k">as</span> <span class="n">prov_commit</span><span class="p">,</span>
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="p">)</span>
-<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>
-<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="c1"># ----------------------------------------------------------------------</span>
-<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="c1"># 1️⃣  Initialise provenance (a tiny Git repo in ./repo)</span>
-<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="c1"># ----------------------------------------------------------------------</span>
-<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="n">repo_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;./repo&quot;</span><span class="p">)</span>
-<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="n">prov_init</span><span class="p">(</span><span class="n">repo_path</span><span class="p">)</span>                     <span class="c1"># creates .git if missing</span>
-<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>
-<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="c1"># ----------------------------------------------------------------------</span>
-<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="c1"># 2️⃣  Define what we want to run</span>
-<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="c1"># ----------------------------------------------------------------------</span>
-<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="n">spec</span> <span class="o">=</span> <span class="n">ExecutionSpec</span><span class="p">(</span>
-<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>    <span class="n">command</span><span class="o">=</span><span class="s2">&quot;python my_model.py --epochs 5&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>    <span class="n">env</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;PYTHONPATH&quot;</span><span class="p">:</span> <span class="s2">&quot;.&quot;</span><span class="p">},</span>
-<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>    <span class="n">resources</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;cpu&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;mem_mb&quot;</span><span class="p">:</span> <span class="mi">1024</span><span class="p">},</span>
-<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="p">)</span>
-<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>
-<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="c1"># ----------------------------------------------------------------------</span>
-<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="c1"># 3️⃣  Estimate the cost (e.g. 10 “credits”)</span>
-<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="c1"># ----------------------------------------------------------------------</span>
-<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="n">estimate</span><span class="p">:</span> <span class="n">CostEstimate</span> <span class="o">=</span> <span class="n">CostEstimate</span><span class="p">(</span><span class="n">credits</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
-<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>
-<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a><span class="c1"># ----------------------------------------------------------------------</span>
-<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a><span class="c1"># 4️⃣  Policy check – is the run allowed under the current budget?</span>
-<a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a><span class="c1"># ----------------------------------------------------------------------</span>
-<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a><span class="n">policy</span> <span class="o">=</span> <span class="n">PolicyDecision</span><span class="p">(</span><span class="n">max_budget</span><span class="o">=</span><span class="n">estimate</span><span class="o">.</span><span class="n">credits</span><span class="p">,</span> <span class="n">spent</span><span class="o">=</span><span class="n">spent</span><span class="p">())</span>
-<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a><span class="k">if</span> <span class="ow">not</span> <span class="n">is_allowed</span><span class="p">(</span><span class="n">policy</span><span class="p">):</span>
-<a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Budget exhausted – cannot run experiment&quot;</span><span class="p">)</span>
-<a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>
-<a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a><span class="c1"># ----------------------------------------------------------------------</span>
-<a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a><span class="c1"># 5️⃣  Submit the experiment (high‑level façade)</span>
-<a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a><span class="c1"># ----------------------------------------------------------------------</span>
-<a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a><span class="n">request</span> <span class="o">=</span> <span class="n">ExperimentRequest</span><span class="p">(</span>
-<a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a>    <span class="n">spec</span><span class="o">=</span><span class="n">spec</span><span class="p">,</span>
-<a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a>    <span class="n">budget</span><span class="o">=</span><span class="n">estimate</span><span class="p">,</span>
-<a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a>    <span class="n">provenance_repo</span><span class="o">=</span><span class="n">repo_path</span><span class="p">,</span>
-<a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a>    <span class="n">requester</span><span class="o">=</span><span class="s2">&quot;alice@example.com&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a><span class="p">)</span>
-<a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a>
-<a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a><span class="n">result</span><span class="p">:</span> <span class="n">ExperimentResult</span> <span class="o">=</span> <span class="n">ExperimentResult</span><span class="o">.</span><span class="n">parse_obj</span><span class="p">(</span>
-<a id="__codelineno-1-56" name="__codelineno-1-56" href="#__codelineno-1-56"></a>    <span class="p">{</span>
-<a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a>        <span class="s2">&quot;run_id&quot;</span><span class="p">:</span> <span class="s2">&quot;run-001&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-58" name="__codelineno-1-58" href="#__codelineno-1-58"></a>        <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;SUCCESS&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-59" name="__codelineno-1-59" href="#__codelineno-1-59"></a>        <span class="s2">&quot;log&quot;</span><span class="p">:</span> <span class="n">run</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">estimate</span><span class="p">)</span><span class="o">.</span><span class="n">dict</span><span class="p">(),</span>
-<a id="__codelineno-1-60" name="__codelineno-1-60" href="#__codelineno-1-60"></a>    <span class="p">}</span>
-<a id="__codelineno-1-61" name="__codelineno-1-61" href="#__codelineno-1-61"></a><span class="p">)</span>
-<a id="__codelineno-1-62" name="__codelineno-1-62" href="#__codelineno-1-62"></a>
-<a id="__codelineno-1-63" name="__codelineno-1-63" href="#__codelineno-1-63"></a><span class="c1"># ----------------------------------------------------------------------</span>
-<a id="__codelineno-1-64" name="__codelineno-1-64" href="#__codelineno-1-64"></a><span class="c1"># 6️⃣  Record spend &amp; provenance</span>
-<a id="__codelineno-1-65" name="__codelineno-1-65" href="#__codelineno-1-65"></a><span class="c1"># ----------------------------------------------------------------------</span>
-<a id="__codelineno-1-66" name="__codelineno-1-66" href="#__codelineno-1-66"></a><span class="n">record_spend</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span>            <span class="c1"># updates the policy budget</span>
-<a id="__codelineno-1-67" name="__codelineno-1-67" href="#__codelineno-1-67"></a><span class="n">commit_info</span> <span class="o">=</span> <span class="n">prov_commit</span><span class="p">(</span>
-<a id="__codelineno-1-68" name="__codelineno-1-68" href="#__codelineno-1-68"></a>    <span class="n">files</span><span class="o">=</span><span class="p">[</span><span class="n">repo_path</span> <span class="o">/</span> <span class="s2">&quot;results/run-001.json&quot;</span><span class="p">],</span>
-<a id="__codelineno-1-69" name="__codelineno-1-69" href="#__codelineno-1-69"></a>    <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Add result </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">run_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-<a id="__codelineno-1-70" name="__codelineno-1-70" href="#__codelineno-1-70"></a><span class="p">)</span>
-<a id="__codelineno-1-71" name="__codelineno-1-71" href="#__codelineno-1-71"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Committed </span><span class="si">{</span><span class="n">commit_info</span><span class="o">.</span><span class="n">sha</span><span class="p">[:</span><span class="mi">7</span><span class="p">]</span><span class="si">}</span><span class="s2"> – </span><span class="si">{</span><span class="n">commit_info</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-1-72" name="__codelineno-1-72" href="#__codelineno-1-72"></a>
-<a id="__codelineno-1-73" name="__codelineno-1-73" href="#__codelineno-1-73"></a><span class="c1"># ----------------------------------------------------------------------</span>
-<a id="__codelineno-1-74" name="__codelineno-1-74" href="#__codelineno-1-74"></a><span class="c1"># 7️⃣  Verify the outcome (detect reward‑hacking)</span>
-<a id="__codelineno-1-75" name="__codelineno-1-75" href="#__codelineno-1-75"></a><span class="c1"># ----------------------------------------------------------------------</span>
-<a id="__codelineno-1-76" name="__codelineno-1-76" href="#__codelineno-1-76"></a><span class="n">audit</span> <span class="o">=</span> <span class="n">verify</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-<a id="__codelineno-1-77" name="__codelineno-1-77" href="#__codelineno-1-77"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Audit flags: </span><span class="si">{</span><span class="n">audit</span><span class="o">.</span><span class="n">flags</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div>
-<p><strong>What you see in the script</strong></p>
-<ol>
-<li><strong>Provenance</strong> – a tiny Git repo is created (<code>prov_init</code>).  </li>
-<li><strong>Spec</strong> – a description of the command to run (<code>ExecutionSpec</code>).  </li>
-<li><strong>Cost model</strong> – we predict a budget (<code>CostEstimate</code>).  </li>
-<li><strong>Policy</strong> – <code>is_allowed</code> checks that the predicted spend does not exceed the remaining budget.  </li>
-<li><strong>Execution</strong> – <code>run</code> actually launches the command inside a sandbox (resource limits are applied automatically).  </li>
-<li><strong>Spend tracking</strong> – <code>record_spend</code> updates the policy’s internal counter.  </li>
-<li><strong>Audit</strong> – <code>verify</code> returns an <code>AuditReport</code> that flags any suspicious behaviour (e.g., unusually low loss, missing logs).</li>
-</ol>
-<hr />
-<h2 id="4-a-slightly-more-advanced-workflow">4. A Slightly More Advanced Workflow<a class="headerlink" href="#4-a-slightly-more-advanced-workflow" title="Permanent link">&para;</a></h2>
-<p>```python</p>
-<h1 id="example_02_cross_validationpy">example_02_cross_validation.py<a class="headerlink" href="#example_02_cross_validationpy" title="Permanent link">&para;</a></h1>
-<p>from pathlib import Path
-from sandbox_science import (
-    ExecutionSpec,
-    CostEstimate,
-    ExperimentRequest,
-    submit,
-    cancel,
-    cross_validate,
-    verify,
-    init as prov_init,
-    log as prov_log,
-)</p>
-<h1 id="-">----------------------------------------------------------------------<a class="headerlink" href="#-" title="Permanent link">&para;</a></h1>
-<h1 id="initialise-provenance-repo-once-per-project">Initialise provenance repo (once per project)<a class="headerlink" href="#initialise-provenance-repo-once-per-project" title="Permanent link">&para;</a></h1>
-<h1 id="-_1">----------------------------------------------------------------------<a class="headerlink" href="#-_1" title="Permanent link">&para;</a></h1>
-<p>repo = Path("./ml_repo")
-prov_init(repo)</p>
-<h1 id="-_2">----------------------------------------------------------------------<a class="headerlink" href="#-_2" title="Permanent link">&para;</a></h1>
-<h1 id="build-a-list-of-5-cv-folds-different-specs">Build a list of 5 CV folds (different specs)<a class="headerlink" href="#build-a-list-of-5-cv-folds-different-specs" title="Permanent link">&para;</a></h1>
-<h1 id="-_3">----------------------------------------------------------------------<a class="headerlink" href="#-_3" title="Permanent link">&para;</a></h1>
-<p>folds = [
-    ExecutionSpec(
-        command=f"python train.py --fold {i}",
-        env={},
-        resources={"cpu": 1, "mem_mb": 512},
-    )
-    for i in range(5)
-]</p>
-<h1 id="-_4">----------------------------------------------------------------------<a class="headerlink" href="#-_4" title="Permanent link">&para;</a></h1>
-<h1 id="submit-each-fold-collect-the-experimentresult-objects">Submit each fold – collect the ExperimentResult objects<a class="headerlink" href="#submit-each-fold-collect-the-experimentresult-objects" title="Permanent link">&para;</a></h1>
-<h1 id="-_5">----------------------------------------------------------------------<a class="headerlink" href="#-_5" title="Permanent link">&para;</a></h1>
-<p>results = [submit(ExperimentRequest(spec=s, budget=CostEstimate(credits=2.0), provenance_repo=repo))
-           for s in folds]</p>
-<h1 id="-_6">----------------------------------------------------------------------<a class="headerlink" href="#-_6" title="Permanent link">&para;</a></h1>
-<h1 id="crossvalidate-the-collection-of-results">Cross‑validate the collection of results<a class="headerlink" href="#crossvalidate-the-collection-of-results" title="Permanent link">&para;</a></h1>
-<h1 id="-_7">----------------------------------------------------------------------<a class="headerlink" href="#-_7" title="Permanent link">&para;</a></h1>
-<p>cv_report = cross_validate([r for r in results])
-print(f"Cross‑val mean accuracy: {cv_report.mean_accuracy:.2f}")</p>
-<h1 id="-_8">----------------------------------------------------------------------<a class="headerlink" href="#-_8" title="Permanent link">&para;</a></h1>
-<h1 id="verify-each-result-individually-detect-rewardhacking-per-fold">Verify each result individually (detect reward‑hacking per fold)<a class="headerlink" href="#verify-each-result-individually-detect-rewardhacking-per-fold" title="Permanent link">&para;</a></h1>
-<h1 id="-_9">----------------------------------------------------------------------<a class="headerlink" href="#-_9" title="Permanent link">&para;</a></h1>
-<p>for r in results:
-    audit</p>
+<p>For the full public API, see the <a href="../../reference/">API Reference</a>. For how the
+pieces fit together, see <a href="../../architecture/">Architecture</a>.</p>
 
 
 

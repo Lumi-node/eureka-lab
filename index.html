@@ -452,32 +452,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
+  <a href="#quick-start" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🚀 Features
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quick-install" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        📦 Quick Install
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#getting-started" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        📖 Getting Started
+        Quick Start
       
     </span>
   </a>
@@ -742,32 +720,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
+  <a href="#quick-start" class="md-nav__link">
     <span class="md-ellipsis">
       
-        🚀 Features
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quick-install" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        📦 Quick Install
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#getting-started" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        📖 Getting Started
+        Quick Start
       
     </span>
   </a>
@@ -795,48 +751,28 @@
 
 
 <h1 id="eurekalab">EurekaLab<a class="headerlink" href="#eurekalab" title="Permanent link">&para;</a></h1>
-<div align="center">
-  <h1 style="font-size: 3.5rem; margin-bottom: 0.5rem;">EurekaLab</h1>
-  <p style="font-size: 1.25rem; color: #555;">Budget‑aware sandbox for autonomous scientific discovery with provenance.</p>
-  <a href="getting-started.md" class="md-button md-button--primary" style="margin-top: 1rem;">Get Started</a>
-</div>
-
-<hr />
-<h2 id="features">🚀 Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
-<div class="md-grid md-typeset">
-
-### Budget‑Aware Execution Sandbox
-<div class="md-card">
-  <p>Self‑regulating runtime that respects a configurable compute budget (CPU, GPU, memory, and wall‑time). The sandbox automatically throttles or aborts tasks that exceed limits, ensuring reproducible experiments without resource overruns.</p>
-</div>
-
-### Provenance‑Tracked Collaboration
-<div class="md-card">
-  <p>All artifacts, code, and configuration are versioned with Git. Automatic provenance metadata (author, timestamps, input/output hashes) is attached to every run, enabling full traceability and reproducible science.</p>
-</div>
-
-### Reward‑Hacking Mitigation
-<div class="md-card">
-  <p>Built‑in detection of reward‑gaming strategies. The sandbox monitors metric drift, anomalous reward spikes, and policy loops, and can intervene or flag suspicious runs.</p>
-</div>
-
-### Clean Python API (src layout)
-<div class="md-card">
-  <p>Import the library with a tidy namespace: <code>import sandbox_science as es</code>. The package follows the modern <code>src/</code> layout, includes type hints, and is ready for integration into any research pipeline.</p>
-</div>
-
-</div>
-
-<hr />
-<h2 id="quick-install">📦 Quick Install<a class="headerlink" href="#quick-install" title="Permanent link">&para;</a></h2>
-<div class="language-bash highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>sandbox_science
+<p><strong>Budget‑aware sandbox for autonomous scientific discovery with provenance.</strong></p>
+<p>EurekaLab (<code>sandbox_science</code>) wraps untrusted, agent‑generated code in a budget‑aware execution environment. It estimates and enforces a cost budget before running, captures every run in a Git‑backed provenance store, and audits results for reward‑hacking — turning the execution environment itself into a first‑class, reusable abstraction.</p>
+<h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
+<div class="language-python highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sandbox_science</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sandbox</span><span class="p">,</span> <span class="n">ExperimentRequest</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># A sandbox enforces a cost budget and records provenance</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">sandbox</span> <span class="o">=</span> <span class="n">Sandbox</span><span class="p">(</span><span class="n">workspace</span><span class="o">=</span><span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">())</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">request</span> <span class="o">=</span> <span class="n">ExperimentRequest</span><span class="p">(</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">code</span><span class="o">=</span><span class="s2">&quot;print(&#39;hello from the sandbox&#39;)&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">budget</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">timeout_seconds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="n">memory_limit_mb</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">)</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="n">result</span> <span class="o">=</span> <span class="n">sandbox</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">success</span><span class="p">)</span>                  <span class="c1"># True</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">run_log</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>   <span class="c1"># hello from the sandbox</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">cost_actual</span><span class="o">.</span><span class="n">total_cost</span><span class="p">)</span>   <span class="c1"># measured cost, &lt;= budget</span>
 </code></pre></div>
-<hr />
-<h2 id="getting-started">📖 Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
-<p>Dive into the tutorial to set up your first budget‑aware experiment, track provenance, and see reward‑hacking protection in action:</p>
-<p><a href="getting-started.md">Getting Started →</a></p>
-<hr />
-<p><em>Built with ❤️ using <a href="https://squidfunk.github.io/mkdocs-material/">Material for MkDocs</a>.</em></p>
+<p>See <a href="getting-started/installation/">Installation</a> and the <a href="getting-started/quick-start/">Quick Start guide</a> to go further, or the <a href="reference/">API Reference</a>.</p>
 
 
 
